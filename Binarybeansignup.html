@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Bean</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ================= ROOT ================= */
+:root {
+  --cream: #f5f2ed;
+  --warm-white: #f0c27e;
+  --gold: #e0952a;
+  --dark: #1c1510;
+  --text: #3a3028;
+  --text-muted: #7a6d62;
+  --border: #e2dbd3;
+  --card-bg: #f9f6f2;
+  --gold-btn: #6b5022;
+  --white: #ffffff;
+  --overlay: rgba(30, 22, 10, 0.55);
+}
+
+/* ================= GLOBAL RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  overflow-x: hidden;
+  color: var(--text);
+}
+
+/* ================= LOGIN & SIGNUP DESIGN ================= */
+.login-section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.subtitle-text {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.input-group input {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+  width: 100%;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  width: 100%;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: var(--gold-btn);
+  color: white;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-btn:hover {
+  background: #543f1b;
+}
+
+.switch-text {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.switch-text a {
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#signup-page {
+  display: none;
+}
+
+#login-message, #signup-message {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ================= MAIN WRAPPER ================= */
+#main-site {
+  display: none;
+}
+
+/* ================= NAV ================= */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background: transparent;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  color: white;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 0.95rem;
+}
+
+.order-btn {
+  background: var(--gold-btn);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 100px;
+  color: white;
+  overflow: hidden;
+}
+
+#bg-image {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1600') center/cover no-repeat;
+  filter: brightness(0.6);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  text-align: left;
+}
+
+.tagline {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  display: inline-block;
+  padding: 5px 15px;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.2;
+}
+
+.hero h1 span {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.subtitle {
+  margin-top: 20px;
+  opacity: 0.85;
+  max-width: 400px;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid white;
+}
+
+/* ================= MENU SECTION ================= */
+.menu-section {
+  padding: 80px 60px;
+  text-align: center;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: var(--dark);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  align-items: start;
+}
+
+.menu-card {
+  background: transparent;
+  border: none;
+  text-align: center;
+}
+
+.card-img {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--dark);
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.menu-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.view-link {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ================= ABOUT SECTION ================= */
+.about-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.img-wrapper {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.est-badge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--gold);
+  color: white;
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.about-content .small-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding: 5px 15px;
+  border: 1px solid var(--border);
+  display: inline-block;
+  border-radius: 999px;
+}
+
+.about-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--dark);
+}
+
+.about-content p {
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  nav { padding: 15px 20px; }
+  .hero { padding-left: 30px; }
+  .about-section { grid-template-columns: 1fr; padding: 40px; }
+  .menu-section { padding: 60px 30px; }
+  .name-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+<section class="login-section" id="login-page">
+  <div class="login-box">
+    <h2>Welcome Back</h2>
+    <p class="subtitle-text">Login to access Binary Bean</p>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="login-email" required placeholder="Enter your email">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="login-password" required placeholder="Enter your password">
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <p id="login-message"></p>
+
+    <div class="switch-text">
+      Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SIGN UP PAGE ================= -->
+<section class="login-section" id="signup-page">
+  <div class="login-box">
+    <h2>Create Account</h2>
+    <p class="subtitle-text">Join us and start your journey</p>
+
+    <form onsubmit="handleSignup(event)">
+      <div class="input-group">
+        <label>Full Name</label>
+        <div class="name-row">
+          <input type="text" id="fname" required placeholder="First Name">
+          <input type="text" id="mname" placeholder="Middle Name">
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <input type="text" id="lname" required placeholder="Last Name">
+      </div>
+
+      <div class="input-group">
+        <label>Email Address</label>
+        <input type="email" id="signup-email" required placeholder="your@email.com">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="signup-password" required placeholder="Create password">
+      </div>
+
+      <button type="submit" class="login-btn">Sign Up</button>
+    </form>
+
+    <p id="signup-message"></p>
+
+    <div class="switch-text">
+      Already have an account? <a href="#" onclick="showLogin()">Sign In</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAIN SITE ================= -->
+<div id="main-site">
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Binary Bean</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Menu</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </div>
+  <a href="#" class="order-btn">Order Online</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div id="bg-image"></div>
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <div class="tagline">Artisanal Coffee & Premium Tea</div>
+    <h1>Where Every Cup <span>Tells a Story</span></h1>
+    <p class="subtitle">Experience the unique fusion of slow-brewed tea and hand-roasted coffee in a space designed for connection and calm.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">Explore Menu</a>
+      <a href="#" class="btn-outline">Visit Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section">
+  <h2 class="section-title">Our Offerings</h2>
+  
+  <div class="menu-grid">
+
+    <div class="menu-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800">
+      </div>
+      <div class="card-body">
+        <h2>Signature Coffee</h2>
+        <ul class="menu-list">
+          <li>Espresso</li>
+          <li>Americano</li>
+          <li>Cappuccino</li>
+          <li>Latte</li>
+        </ul<a href="#" class="view-link">View Category →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800">
+      </div>
+      <div class="card-body">
+        <h2>Premium Tea</h2>
+        <ul class="menu-list">
+          <li>Green Tea</li>
+          <li>Black Tea</li>
+          <li>Herbal Infusions</li>
+          <li>Iced Tea</li>
+        </ul>
+        <a href="#" class="view-link">View Category →</a>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="card-img">
+        <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=800">
+      </div>
+      <div class="card-body">
+        <h2>Fresh Pastries</h2>
+        <ul class="menu-list">
+          <li>Croissant</li>
+          <li>Muffins</li>
+          <li>Cakes & Slices</li>
+          <li>Cookies</li>
+        </ul>
+        <a href="#" class="view-link">View Category →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="img-wrapper">
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085">
+    <div class="est-badge">Est.<br>2026</div>
+  </div>
+
+  <div class="about-content">
+    <div class="small-title">Our Philosophy</div>
+    <h2>Crafting a Third Space</h2>
+    <p>CoffTea began with a simple observation: the world is divided into coffee people and tea people, but the ritual of a warm drink is universal.</p>
+    <p>We created a sanctuary where artisanal espresso meets ceremonial tea. A place where you can find the high-energy focus of a dark roast or the meditative calm of a steep.</p>
+  </div>
+</section>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+// Show Signup Page
+function showSignup() {
+  document.getElementById("login-page").style.display = "none";
+  document.getElementById("signup-page").style.display = "flex";
+}
+
+// Show Login Page
+function showLogin() {
+  document.getElementById("signup-page").style.display = "none";
+  document.getElementById("login-page").style.display = "flex";
+}
+
+// Handle Signup
+function handleSignup(e) {
+  e.preventDefault();
+
+  const user = {
+    fname: document.getElementById("fname").value,
+    mname: document.getElementById("mname").value,
+    lname: document.getElementById("lname").value,
+    email: document.getElementById("signup-email").value,
+    password: document.getElementById("signup-password").value
+  };
+
+  localStorage.setItem("binaryUser", JSON.stringify(user));
+
+  document.getElementById("signup-message").innerText = "Account created successfully!";
+  document.getElementById("signup-message").style.color = "green";
+
+  setTimeout(showLogin, 1500);
+}
+
+// Handle Login
+function handleLogin(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  const savedUser = JSON.parse(localStorage.getItem("binaryUser"));
+
+  if (savedUser && email === savedUser.email && password === savedUser.password) {
+    document.getElementById("login-page").style.display = "none";
+    document.getElementById("signup-page").style.display = "none";
+    document.getElementById("main-site").style.display = "block";
+  } else {
+    document.getElementById("login-message").innerText = "Invalid email or password!";
+    document.getElementById("login-message").style.color = "red";
+  }
+}
+</script>
+
+</body>
+</html>
