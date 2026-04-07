@@ -30,7 +30,7 @@ Ginamit para i-deploy o i-publish ang website online upang ma-access ito ng iban
 
 
 ## 🚀 Live Demo
-[ILAGAY DITO ANG LINK MULA SA STEP 3 SA BABA]
+https://riveraharold.github.io/binary-bean-project
 
 ## 👥 Members
 - Harold Rivera          (Lead Developer)
