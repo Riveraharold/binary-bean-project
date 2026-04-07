@@ -788,7 +788,7 @@ footer span { color: var(--gold); }
 /* ══════════════════════════════
    RESPONSIVE
 ══════════════════════════════ */
-/*@media (max-width: 900px) {
+@media (max-width: 900px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
   .menu-grid { grid-template-columns: 1fr 1fr; }
@@ -800,24 +800,8 @@ footer span { color: var(--gold); }
   .menu-grid { grid-template-columns: 1fr; }
   .modal { padding: 36px 24px 32px; }
   .name-row { grid-template-columns: 1fr; }
-}*/
-
-@media (max-width: 768px) {
-    .nav-links {
-        display: none; /* Itatago muna ang menu */
-        flex-direction: column; /* Gagawing vertical ang listahan */
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background-color: #333; /* Kulay ng background ng menu sa mobile */
-    }
-
-    /* Klase na idadagdag natin gamit ang JS para lumitaw ang menu */
-    .nav-links.active {
-        display: flex;
-    }
 }
+
 </style>
 </head>
 <body>
@@ -828,11 +812,6 @@ footer span { color: var(--gold); }
   <!-- NAV -->
   <nav>
     <div class="logo">Binary Bean</div>
-    <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </div>
     <ul class="nav-links">
       <li><a href="#">Home</a></li>
       <li><a href="#menu">Menu</a></li>
@@ -1126,12 +1105,6 @@ block">
   const overlay     = document.getElementById('modal-overlay');
   const modalTitle  = document.getElementById('modal-title');
   const modalTabs   = document.getElementById('modal-tabs');
-
-  function toggleMenu() {
-    const navList = document.getElementById('nav-list');
-    // I-aadd o tatanggalin ang class na 'active'
-    navList.classList.toggle('active');
-}
 
   // Function to check if a user is logged in (simplified for this example)
   function isUserLoggedIn() {
