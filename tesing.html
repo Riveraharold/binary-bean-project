@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary Bean</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <style>
+:root {
+  --cream: #f5f2ed;
+  --gold: #e0952a;
+  --gold-light: #e0a83c;
+  --dark: #1c1510;
+  --text: #3a3028;
+  --text-muted: #7a6d62;
+  --border: #e2dbd3;
+  --card-bg: #f9f6f2;
+  --gold-btn: #6b5022;
+  --overlay: rgba(30, 22, 10, 0.4); /* Slightly lighter overlay */
+  --navbar-bg: #c9a84c;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  height: 68px;
+  background: var(--navbar-bg);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: var(--dark);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover { opacity: 1; }
+
+.order-btn {
+  background: var(--dark);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+}
+
+.order-btn:hover { background: var(--gold-btn); }
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+#bg-image {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1600&auto=format&fit=crop') center/cover no-repeat;
+  filter: brightness(0.58) sepia(25%);
+  z-index: 0;
+  transition: filter 0.4s ease;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  padding: 0 24px;
+}
+
+.tagline {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.88);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-weight: 1200;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 span {
+  color: var(--gold-light);
+  font-style: italic;
+  display: block;
+}
+
+.hero-subtitle {
+  margin: 22px auto;
+  opacity: 0.8;
+  max-width: 420px;
+  line-height: 1.75;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: #fff;
+  padding: 13px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  padding: 13px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-outline:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+/* scroll mouse */
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+z-index: 2;
+  opacity: 0.45;
+}
+
+.mouse {
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 12px;
+  position: relative;
+  margin: auto;
+}
+
+.mouse::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 7px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  animation: scrollDot 1.5s infinite;
+}
+
+@keyframes scrollDot {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+}
+
+/* ══════════════════════════════
+   MENU SECTION (Homepage)
+══════════════════════════════ */
+.menu-section {
+  padding: 90px 60px;
+  text-align: center;
+  background: var(--cream);
+}
+
+.section-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 56px;
+  letter-spacing: -0.02em;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.menu-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: left;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+ box-shadow: 0 24px 48px rgba(28,21,16,0.12);
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.menu-card:hover .card-img img { transform: scale(1.05); }
+
+.card-body {
+padding: 26px 26px 22px;
+}
+
+.card-body h3 {
+ font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-body h3 .icon { color: var(--gold); }
+
+.menu-list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.menu-list li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.menu-list li:last-child { border-bottom: none; }
+
+.view-link {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: gap 0.2s;
+}
+
+.view-link:hover { color: var(--gold-light); }
+
+/* ══════════════════════════════
+   ABOUT SECTION
+══════════════════════════════ */
+.about-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  padding: 90px 80px;
+  max-width: 1200px;
+  margin: auto;
+  align-items: center;
+  background: var(--cream);
+}
+
+.img-block { position: relative; }
+
+.img-wrapper {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.est-badge {
+  position: absolute;
+  bottom: -24px;
+  right: -20px;
+  background: var(--gold);
+  color: #fff;
+  width: 110px;
+  height: 110px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+}
+
+.about-badge {
+  display: inline-block;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+
+.about-content h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 22px;
+  letter-spacing: -0.02em;
+}
+
+.about-content p {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 14px;
+  font-weight: 300;
+}
+
+.about-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold);
+  line-height: 1.6;
+ margin: 24px 0 32px;
+}
+
+/* ══════════════════════════════
+   MODAL OVERLAY
+══════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: rgba(10, 7, 2, 0.4);
+}
+
+.modal-overlay.active {
+  pointer-events: all;
+  opacity: 1;
+}
+
+/* blur the page behind */
+.site-wrapper {
+  transition: filter 0.4s ease;
+}
+
+.site-wrapper.blurred {
+  filter: blur(6px) brightness(0.75);
+  pointer-events: none;
+}
+
+/* modal box */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Increased max-width for menu */
+  max-height: 80vh; /* Allow scrolling for longer menus */
+  overflow-y: auto; /* Enable scrolling */
+  margin: 20px;
+  background: rgba(255, 252, 245, 0.13);
+backdrop-filter: blur(30px) saturate(1.5);
+  -webkit-backdrop-filter: blur(30px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 24px;
+  padding: 44px 40px 40px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+  color: #fff;
+  transform: translateY(32px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1), opacity 0.35s ease;
+  opacity: 0;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.modal-close:hover { color: #fff; }
+
+.modal-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 4px;
+}
+
+.modal h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+/* tabs for login/signup */
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 28px;
+}
+
+.modal-tab {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.42);
+  font-size: 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px; /* to align with border */
+}
+
+.modal-tab.active {
+ color: #fff;
+  border-bottom-color: var(--gold-light);
+  font-weight: 500;
+}
+
+/* form panels */
+.form-panel { display: none; }
+.form-panel.active { display: block; }
+
+.field { margin-bottom: 15px; }
+
+.field label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 7px;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.field input::placeholder { color: rgba(255,255,255,0.3); }
+.field input:focus {
+  border-color: var(--gold-light);
+  background: rgba(255,255,255,0.15);
+}
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-extras {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+}
+
+.form-extras label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.form-extras input[type="checkbox"] { accent-color: var(--gold); }
+.form-extras a { color: var(--gold-light); text-decoration: none; }
+.form-extras a:hover { text-decoration: underline; }
+
+.modal-submit {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.95rem;
+ font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+
+.modal-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+.modal-switch {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.45);
+}
+
+.modal-switch button {
+  background: none;
+  border: none;
+  color: var(--gold-light);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.modal-switch button:hover { color: #fff; }
+
+.msg {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  min-height: 20px;
+}
+
+.msg.success { color: #7ddf8c; }
+.msg.error   { color: #f87e7e; }
+
+/* New styles for the coffee menu within the modal */
+.coffee-menu-panel {
+  display: none; /* Hidden by default */
+  padding-top: 20px;
+}
+
+.coffee-menu-panel.active {
+  display: block;
+}
+
+.menu-category {
+  margin-bottom: 30px;
+}
+
+.menu-category h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 15px;
+  text-align: center;
+  position: relative;
+}
+
+.menu-category h3::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: rgba(255,255,255,0.2);
+  margin: 8px auto 0;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align start to give space for description */
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  position: relative;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex-grow: 1;
+  margin-right: 15px;
+}
+
+.item-name {
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.item-description {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+}
+
+.item-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--gold);
+  white-space: nowrap; /* Prevent price from wrapping */
+}
+
+.add-to-cart-btn {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background 0.2s;
+  flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.add-to-cart-btn:hover {
+  background: var(--gold-light);
+}
+
+/* Cart summary for later */
+.cart-summary {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
+  color: #fff;
+}
+
+.cart-summary p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+ letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 15px;
+}
+
+.checkout-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  padding: 28px;
+  font-size: 0.82rem;
+letter-spacing: 0.04em;
+}
+
+footer span { color: var(--gold); }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 900px) {
+nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .menu-grid { grid-template-columns: 1fr 1fr; }
+  .about-section { grid-template-columns: 1fr; padding: 60px 30px; }
+  .menu-section { padding: 60px 24px; }
+}
+
+@media (max-width: 600px) {
+  .menu-grid { grid-template-columns: 1fr; }
+  .modal { padding: 36px 24px 32px; }
+  .name-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-wrapper" id="site-wrapper">
+
+  <nav>
+    <div class="logo">Binary Bean</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+    <button class="order-btn" onclick="openModal()">Order Online</button>
+  </nav>
+
+  <section class="hero">
+    <div id="bg-image"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="tagline">Artisanal Coffee &amp; Premium Tea</span>
+      <h1>Where Every Cup</h1>
+        <span>Tells a Story.</span>
+      
+      <p class="hero-subtitle">
+        Experience the unique fusion of slow-brewed tea and hand-roasted
+        coffee in a space designed for connection and calm.
+      </p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn-primary">Explore Menu</a>
+        <a href="#about" class="btn-outline">Visit Us</a>
+      </div>
+    </div>
+    <div class="scroll-hint"><div class="mouse"></div></div>
+  </section>
+
+  <section class="menu-section" id="menu">
+    <p class="section-eyebrow">Crafted with care</p>
+    <h2 class="section-title">Our Offerings</h2>
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&auto=format&fit=crop" alt="Signature Coffee"/>
+        </div>
+        <div class="card-body">
+          <h3><span class="icon">☕</span> Signature Coffee</h3>
+          <ul class="menu-list">
+ <li>Lavender Oat Latte</li>
+            <li>Pistachio Cold Brew</li>
+            <li>Double Shot Espresso</li>
+          </ul>
+          <a href="#" class="view-link">View Category →</a>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&auto=format&fit=crop" alt="Artisan Tea"/>
+        </div>
+        <div class="card-body">
+          <h3><span class="icon">🍃</span> Artisan Tea</h3>
+          <ul class="menu-list">
+            <li>Earl Grey Blossom</li>
+            <li>Ceremonial Matcha</li>
+            <li>Rose Hibiscus Iced</li>
+          </ul>
+          <a href="#" class="view-link">View Category →</a>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?w=800&auto=format&fit=crop" alt="Fresh Pastries"/>
+        </div>
+        <div class="card-body">
+          <h3><span class="icon">🥐</span> Fresh Pastries</h3>
+          <ul class="menu-list">
+            <li>Almond Croissant</li>
+            <li>Matcha White Choco Scone</li>
+            <li>Sourdough Brioche</li>
+          </ul>
+          <a href="#" class="view-link">View Category →</a>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+  <section class="about-section" id="about">
+    <div class="img-block">
+      <div class="img-wrapper">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&auto=format&fit=crop" alt="CoffTea ambiance"/>
+      </div>
+      <div class="est-badge">Est.<br>2026</div>
+    </div>
+    <div class="about-content">
+      <span class="about-badge">Our Philosophy</span>
+      <h2>Crafting a Third Space</h2>
+      <p>Binary Bean began with a simple observation: the world is divided into coffee people and tea people, but the ritual of a warm drink is universal.</p>
+      <p>We created a sanctuary where artisanal espresso meets ceremonial tea. A place where you can find the high-energy focus of a dark roast or the meditative calm of a steep.</p>
+      <p class="about-quote">"We don't just serve drinks; we serve moments of intentional pause."</p>
+      <a href="#" class="btn-primary" style="display:inline-block;text-decoration:none;">Discover Our Story →</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 <span>Binary Bean</span> — All rights reserved.
+  </footer>
+
+</div><div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <p class="modal-eyebrow">Binary Bean ☕</p>
+    <h2 id="modal-title">Welcome back</h2>
+
+    <div class="modal-tabs" id="modal-tabs">
+      <button class="modal-tab active" id="tab-login"  onclick="switchTab('login')">Log In</button>
+      <button class="modal-tab"        id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <div class="form-panel active" id="panel-login">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="you@example.com"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••"/>
+      </div>
+      <div class="form-extras">
+        <label><input type="checkbox"/> Remember me</label>
+        <a href="#">Forgot password?</a>
+      </div>
+      <button class="modal-submit" onclick="handleLogin()">Log In</button>
+      <p class="msg" id="login-msg"></p>
+      <div class="modal-switch">Don't have an account? <button onclick="switchTab('signup')">Sign up</button></div>
+    </div>
+
+    <div class="form-panel" id="panel-signup">
+      <div class="field">
+        <label>Full Name</label>
+        <div class="name-row">
+          <input type="text" id="fname" placeholder="First Name"/>
+          <input type="text" id="lname" placeholder="Last Name"/>
+        </div>
+ </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="signup-email" placeholder="you@example.com"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="Min. 8 characters"/>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="signup-confirm" placeholder="Repeat password"/>
+</div>
+      <button class="modal-submit" onclick="handleSignup()">Create Account</button>
+      <p class="msg" id="signup-msg"></p>
+      <div class="modal-switch">Already have an account? <button onclick="switchTab('login')">Log in</button></div>
+    </div>
+
+    <div class="form-panel" id="panel-coffee-menu">
+        <div class="menu-category">
+            <h3>Signature Coffee</h3>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Espresso</div>
+                    <div class="item-description">Rich, concentrated shot of pure coffee.</div>
+                </div>
+                <div class="item-price">$3.00</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Americano</div>
+                    <div class="item-description">Espresso with hot water, light crema.</div>
+                </div>
+                <div class="item-price">$3.50</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Cappuccino</div>
+                    <div class="item-description">Espresso, steamed milk, and foamed milk.</div>
+                </div>
+                <div class="item-price">$4.25</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Latte</div>
+                    <div class="item-description">Espresso with steamed milk and a thin layer of foam.</div>
+                </div>
+                <div class="item-price">$4.50</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+<div class="item-details">
+                    <div class="item-name">Mocha</div>
+                    <div class="item-description">Latte with chocolate syrup and whipped cream.</div>
+                </div>
+                <div class="item-price">$5.00</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>Specialty Brews</h3>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Cold Brew</div>
+                    <div class="item-description">Slow-steeped coffee for a smooth, low-acid taste.</div>
+                </div>
+                <div class="item-price">$4.75</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Vanilla Bean Latte</div>
+                    <div class="item-description">Creamy latte infused with natural vanilla.</div>
+                </div>
+                <div class="item-price">$5.25</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Caramel Macchiato</div>
+                    <div class="item-description">Espresso, steamed milk, vanilla syrup, and caramel drizzle.</div>
+                </div>
+                <div class="item-price">$5.25</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h3>Teas & Others</h3>
+            <div class="menu-item">
+<div class="item-details">
+                    <div class="item-name">Earl Grey</div>
+                    <div class="item-description">Classic black tea with bergamot essence.</div>
+                </div>
+                <div class="item-price">$3.50</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Green Tea</div>
+                    <div class="item-description">Refreshing and aromatic.</div>
+                </div>
+                <div class="item-price">$3.50</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Chai Latte</div>
+                    <div class="item-description">Spiced black tea with steamed milk.</div>
+                </div>
+                <div class="item-price">$4.75</div>
+<button class="add-to-cart-btn">Add</button>
+            </div>
+            <div class="menu-item">
+                <div class="item-details">
+                    <div class="item-name">Hot Chocolate</div>
+                    <div class="item-description">Rich cocoa with steamed milk.</div>
+                </div>
+                <div class="item-price">$4.00</div>
+                <button class="add-to-cart-btn">Add</button>
+            </div>
+        </div>
+        <div class="cart-summary">
+            <p>Your current order total: $<span id="cart-total">0.00</span></p>
+            <button class="checkout-btn" onclick="goToDeliveryForm()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="form-panel" id="panel-delivery">
+      <div class="menu-category">
+        <h3>Delivery Details</h3>
+        <div class="field">
+          <label>Confirm Your Address</label>
+          <input type="text" id="delivery-address" placeholder="123 Coffee Lane, City">
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="text" id="delivery-phone" placeholder="0912-345-6789">
+        </div>
+        <p style="text-align:center; margin-top:10px;">Current Total: <strong id="final-price"></strong></p>
+        <button class="modal-submit" onclick="showOrderSummary()">Confirm Your Delivery</button>
+      </div>
+    </div>
+
+    <div class="form-panel" id="panel-summary">
+      <div class="menu-category">
+        <h3>Order Summary</h3>
+        <div id="summary-items-list" style="margin-bottom: 20px; text-align: left;">
+          </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; text-align: center;">
+          <p style="font-size: 1.2rem; margin-bottom: 15px;">Total Amount: <strong id="summary-total-cost" style="color: var(--gold-light);"></strong></p>
+          <button class="modal-submit" style="background: #27ae60;" onclick="showSuccessScreen()">Delivery Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-panel" id="panel-success" style="text-align: center; padding: 20px 0;">
+      <div style="font-size: 4rem; color: #7ddf8c; margin-bottom: 20px;">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2 style="margin-bottom: 10px;">Thank you for your order!</h2>
+      <p style="color: rgba(255,255,255,0.7); margin-bottom: 30px;">Have a nice day!</p>
+      <button class="modal-submit" onclick="location.reload()">Go Back Homepage</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const siteWrapper = document.getElementById('site-wrapper');
+  const overlay     = document.getElementById('modal-overlay');
+  const modalTitle  = document.getElementById('modal-title');
+  const modalTabs   = document.getElementById('modal-tabs');
+  
+  let cartTotal = 0;
+  let cartItems = []; // New list to track exactly what we pick
+function isUserLoggedIn() {
+    return localStorage.getItem('binaryUser') !== null;
+  }
+
+  function openModal() {
+    overlay.classList.add('active');
+    siteWrapper.classList.add('blurred');
+
+    hideAllPanels();
+
+    if (isUserLoggedIn()) {
+      modalTitle.textContent = "Welcome, grab your favorite brew!";
+      modalTabs.style.display = 'none'; 
+      document.getElementById('panel-coffee-menu').classList.add('active');
+    } else {
+      modalTitle.textContent = 'Welcome back';
+      modalTabs.style.display = 'flex';
+      switchTab('login');
+    }
+  }
+
+  function closeModal() {
+    overlay.classList.remove('active');
+    siteWrapper.classList.remove('blurred');
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === overlay) closeModal();
+  }
+
+  function hideAllPanels() {
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+  }
+
+  function switchTab(tab) {
+    document.getElementById('login-msg').textContent = '';
+    document.getElementById('signup-msg').textContent = '';
+
+    const isLogin = tab === 'login';
+    modalTitle.textContent = isLogin ? 'Welcome back' : 'Create account';
+
+    document.getElementById('tab-login').classList.toggle('active', isLogin);
+    document.getElementById('tab-signup').classList.toggle('active', !isLogin);
+
+    hideAllPanels();
+    document.getElementById(isLogin ? 'panel-login' : 'panel-signup').classList.add('active');
+  }
+
+  // --- Logic for the "Add" buttons ---
+  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.onclick = function() {
+      const itemContainer = this.closest('.menu-item');
+      const name = itemContainer.querySelector('.item-name').innerText;
+      const priceText = itemContainer.querySelector('.item-price').innerText;
+      const price = parseFloat(priceText.replace('$', ''));
+      
+      // Save item details
+      cartItems.push({ name: name, price: price });
+      
+      cartTotal += price;
+      document.getElementById('cart-total').innerText = cartTotal.toFixed(2);
+      
+      this.innerText = "Added!";
+      setTimeout(() => { this.innerText = "Add"; }, 600);
+    };
+  });
+
+  // --- Move to Delivery Form ---
+  function goToDeliveryForm() {
+    if (cartTotal === 0) {
+      alert("Please add items to your cart first!");
+      return;
+    }
+    hideAllPanels();
+    document.getElementById('panel-delivery').classList.add('active');
+    document.getElementById('final-price').innerText = "$" + cartTotal.toFixed(2);
+    modalTitle.textContent = "Confirm Delivery";
+  }
+
+  // --- NEW: Show Summary of chosen items ---
+  function showOrderSummary() {
+    const addr = document.getElementById('delivery-address').value;
+    const phone = document.getElementById('delivery-phone').value;
+
+    if (!addr || !phone) {
+      alert("Please enter both Address and Phone number!");
+      return;
+    }
+
+    hideAllPanels();
+    const summaryList = document.getElementById('summary-items-list');
+    summaryList.innerHTML = ''; // Clear previous view
+
+    cartItems.forEach(item => {
+      summaryList.innerHTML += `
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:5px;">
+          <span>${item.name}</span>
+          <span style="color:var(--gold);">$${item.price.toFixed(2)}</span>
+        </div>`;
+    });
+
+    document.getElementById('summary-total-cost').innerText = "$" + cartTotal.toFixed(2);
+    document.getElementById('panel-summary').classList.add('active');
+    modalTitle.textContent = "Your Selection";
+  }
+
+  // --- NEW: Success Screen ---
+  function showSuccessScreen() {
+    hideAllPanels();
+    document.getElementById('panel-success').classList.add('active');
+    modalTitle.textContent = "Order Placed";
+  }
+
+  // Auth logic
+  function handleLogin() {
+    localStorage.setItem('binaryUser', 'true');
+    openModal(); // Re-trigger to see menu
+  }
+
+  function handleSignup() {
+    localStorage.setItem('binaryUser', 'true');
+    openModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
